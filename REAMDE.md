@@ -30,3 +30,4 @@ Ya tenemos nuestro proyecto inicializado y publicado en GitHub. Ahora vamos a in
 
 6. Instalamos Tailwind CSS y nos aseguramos de que funcione.
 7. Hacemos nuevo commit.
+8. Creamos todo el markup (el diseño) de la aplicación.
