@@ -20,6 +20,8 @@ const allToDos = [
   }
 ];
 
+// Cazo la sección donde añadiré las tareas
+const toDoList = document.querySelector('.toDo-list');
 
 
 // Imprimir los todos al cargar la página
@@ -31,9 +33,9 @@ countItemsLeft();
 
 
 function printToDos () {
+  // Borrar toda la lista de tareas
+  toDoList.innerHTML = '';
 
-  // Cazo la sección donde añadiré las tareas
-  const toDoList = document.querySelector('.toDo-list');
   // Recorro cada tarea de la lista de tareas
   for (const toDo of allToDos) {
   
@@ -62,6 +64,33 @@ function printToDos () {
       </svg>
     </button>
     `;
+
+    
+    //* Justo aquí debajo, el article YA TIENE DENTRO el input y el Button que completan y borran el toDo.
+    const isCompletedCheckbox = article.querySelector('input');
+    isCompletedCheckbox.addEventListener('change', () => {
+      // Aquí YO TENGO EL OBJETO DEL TODO ENTERO, así que puedo cambiar su propiedad isCompleted a true o false
+      toDo.isCompleted = !toDo.isCompleted;
+
+      
+      printToDos();
+      countItemsLeft();
+
+      console.log(allToDos);
+    });
+
+
+    //* Ahora caza el boton de borrar
+
+    //* Le escuchas el click
+
+    //* Buscas dentro del array cual es el que quiero borrar (con el id)
+
+    //* Haces un splice para borrarlo del array
+
+    //* Reimprimes la lista de todos
+
+    //* Recalculas el número de items que faltan por completar
   
     // Lo meto en el DOM dentro de la sección
     toDoList.append(article);  
@@ -80,6 +109,27 @@ function countItemsLeft () {
   
   itemsLeftOutput.innerText = itemsLeftCount;
 }
+
+
+
+// Cazamos el formulario
+
+// Escuchamos el evento submir
+
+// Paramos el comportamiento por defecto del formulario
+
+// Cogemos el valor del usuario
+
+// Creamos un nuevo TODO que meteremos en el array
+
+//! Primero vacía el section de los todos
+// toDoList.innerHTML = '';
+
+// Reimprimimos todos los todos
+
+
+
+
 
 
 
