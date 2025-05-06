@@ -61,33 +61,31 @@ function createToDoHTML (toDo) {
   
     // Le pongo lo de dentro
     article.innerHTML = `
-    <input aria-label="Complete to-do checkbox" id="${toDo.id}" class="complete-checkbox hidden peer" type="checkbox" ${isChecked}>
-    <label for="${toDo.id}" class="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:bg-check-gradient">
+    <input data-id="${toDo.id}"  aria-label="Complete to-do checkbox" id="${toDo.id}" class="complete-checkbox hidden peer" type="checkbox" ${isChecked}>
+    <label data-complete-input for="${toDo.id}" class="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:bg-check-gradient">
       <svg class="${isCheckIconVisible} check-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="9"><path fill="none" stroke="#FFF" stroke-width="2" d="M1 4.304L3.696 7l6-6"/></svg>
     </label>
     <span class="peer-checked:line-through peer-checked:opacity-30">${toDo.task}</span>
-    <button aria-label="Delete button" type="button" class="ml-auto text-gray-600 cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
+    <button data-delete-button data-id="${toDo.id}" aria-label="Delete button" type="button" class="ml-auto text-gray-600 cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
         <path fill="currentColor" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/>
       </svg>
     </button>
     `;
 
-    
+    //! OPCION 1 PARA ESCUCHAR LOS EVENTOS DE LOS BOTONES DE LOS TO-DOS
     //* Justo aquí debajo, el article YA TIENE DENTRO el input y el Button que completan y borran el toDo.
-    const completedInput = article.querySelector('.complete-checkbox');
-    completedInput.addEventListener('change', () => {
-      // Aquí YO TENGO EL OBJETO DEL TODO ENTERO, así que puedo cambiar su propiedad isCompleted a true o false
-      toDo.isCompleted = !toDo.isCompleted;
-
-      printToDos();
-      countItemsLeft();
-    });
-    
+    // const completedInput = article.querySelector('.complete-checkbox');
+    // completedInput.addEventListener('change',  () => toggleCompleteToDo(toDo));        
 
     //* Ahora caza el boton de borrar
-
     //* Le escuchas el click
+
+    
+    // const deleteButton = article.querySelector('[data-delete-button]');
+    // deleteButton.addEventListener('click', () => deleteToDo(toDo));
+
+    //! ***************************************************/
 
     //* Buscas dentro del array cual es el que quiero borrar (con el id)
 
@@ -178,6 +176,28 @@ function isInputEmpty (value) {
 }
 
 
+function toggleCompleteToDo (toDo) {  
+  // Aquí YO TENGO EL OBJETO DEL TODO ENTERO, así que puedo cambiar su propiedad isCompleted a true o false
+  toDo.isCompleted = !toDo.isCompleted;
+  printToDos();
+  countItemsLeft();
+}
+
+function deleteToDo (toDoToDelete) {
+
+  for (const i in allToDos) {
+    const toDo = allToDos[i];
+
+    if (toDo.id === toDoToDelete.id) {
+      allToDos.splice(i, 1);
+      break;
+    }
+  }
+
+  printToDos();
+  countItemsLeft();
+}
+
 // const handleAddToDoFormSubmit = (event) => {
 
 //   // Paramos el comportamiento por defecto del formulario
@@ -227,4 +247,23 @@ function isInputEmpty (value) {
 
 
 
+
+//! OPCION 2 PARA ESCUCHAR LOS EVENTOS DE LOS BOTONES DE LOS TO-DOS
+//? Event Delegation
+
+
+window.addEventListener('click', (event) => {
+  if (event.target.closest('[data-complete-input]') !== null) {
+
+    // consigo el id
+    const id = event.target.closest('[data-complete-input]').getAttribute('data-id');
+    console.log(id);
+    // toggleCompleteToDo();
+  } else if (event.target.closest('[data-delete-button]') !== null) {
+
+    const id = event.target.closest('[data-delete-button]').getAttribute('data-id');
+    console.log(id);
+    // deleteToDo();
+  }
+});
 
