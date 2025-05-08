@@ -2,25 +2,40 @@ import './styles/style.css';
 
 import { nanoid } from 'nanoid';
 
-const allToDos = [
-  {
-    id: nanoid(5),
-    task: 'Comprar leche 🥛',
-    isCompleted: false
-  },
-  {
-    id: nanoid(5),
-    task: 'Escribir código 💻',
-    isCompleted: true
-  },
-  {
-    id: nanoid(5),
-    task: 'Hacer la compra 🛒',
-    isCompleted: false
-  }
-];
+// const allToDos = [
+//   {
+//     id: nanoid(5),
+//     task: 'Comprar leche 🥛',
+//     isCompleted: false
+//   },
+//   {
+//     id: nanoid(5),
+//     task: 'Escribir código 💻',
+//     isCompleted: true
+//   },
+//   {
+//     id: nanoid(5),
+//     task: 'Hacer la compra 🛒',
+//     isCompleted: false
+//   }
+// ];
 
 // Cazo la sección donde añadiré las tareas
+
+//* Aquí tengo que coger lo que hay en localStorage y parsearlo. Luego lo guardaré en la variable allToDos
+
+const toDosLocalStorage = JSON.parse(localStorage.getItem('toDos'));
+
+//* Opcion antigua
+// let allToDos = [];
+// if (toDosLocalStorage) {
+//   allToDos = toDosLocalStorage;
+// }
+
+//* Opción nueva
+const allToDos = toDosLocalStorage || [];
+
+const $clearCompletedButton = document.querySelector('.clear-completed');
 const $toDoList = document.querySelector('.toDo-list');
 
 
@@ -37,6 +52,8 @@ const $addToDoForm = document.querySelector('.add-todo-form');
 // Escuchamos el evento submit
 $addToDoForm.addEventListener('submit', handleAddToDoFormSubmit);
 
+// Escuchamos el click del botón de borrar todos los completados
+$clearCompletedButton.addEventListener('click', clearCompletedToDos);
 
 function printToDos () {
   // Borrar toda la lista de tareas
@@ -136,6 +153,8 @@ function handleAddToDoFormSubmit (event) {
 
   // opción resetear el formulario
   $addToDoForm.reset();
+
+  setTodosInLocalStorage();
 }
 
 function createNewToDo (newTaskValue) {
@@ -172,6 +191,8 @@ function toggleCompleteToDo (idToComplete) {
   
   printToDos();
   countItemsLeft();
+
+  setTodosInLocalStorage();
 }
 
 function deleteToDo (idToDelete) {
@@ -187,7 +208,31 @@ function deleteToDo (idToDelete) {
 
   printToDos();
   countItemsLeft();
+
+  setTodosInLocalStorage();
 }
+
+function setTodosInLocalStorage () {
+  localStorage.setItem('toDos', JSON.stringify(allToDos));
+}
+
+
+function clearCompletedToDos () {  
+  for (let i = 0; i < allToDos.length; i++) {
+    const toDo = allToDos[i];
+
+    if (toDo.isCompleted === true) {
+      allToDos.splice(i, 1);
+      i--; // Decrementar el índice para evitar saltar un elemento
+    }
+  }
+
+  printToDos();
+  countItemsLeft();
+  setTodosInLocalStorage();
+
+}
+
 
 
 //! OPCION 2 PARA ESCUCHAR LOS EVENTOS DE LOS BOTONES DE LOS TO-DOS
