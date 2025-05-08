@@ -24,6 +24,7 @@
   --bright-purple: hsl(280, 87%, 65%);
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --tracking-gigante: 8px;
@@ -34,8 +35,6 @@
   --background-image-check-gradient: linear-gradient(135deg, var(--bright-blue), var(--bright-purple));
 
 }
-
-
 
 
 

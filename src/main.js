@@ -37,6 +37,8 @@ const allToDos = toDosLocalStorage || [];
 
 const $clearCompletedButton = document.querySelector('.clear-completed');
 const $toDoList = document.querySelector('.toDo-list');
+const $darkModeButton = document.querySelector('[aria-label="dark mode button"]');
+
 
 
 // Imprimir los todos al cargar la página
@@ -54,6 +56,10 @@ $addToDoForm.addEventListener('submit', handleAddToDoFormSubmit);
 
 // Escuchamos el click del botón de borrar todos los completados
 $clearCompletedButton.addEventListener('click', clearCompletedToDos);
+
+// Escuchamos el click del botón de modo oscuro
+$darkModeButton.addEventListener('click', () => {
+  document.body.classList.toggle('dark');})
 
 function printToDos () {
   // Borrar toda la lista de tareas
@@ -74,7 +80,7 @@ function createToDoHTML (toDo) {
     const article = document.createElement('article');
   
     // Le pongo las clases que necesita el article
-    article.className = 'bg-white py-2 px-4 first:rounded-t flex items-center gap-3  border-b border-b-gray-300';
+    article.className = 'bg-white py-2 px-4 first:rounded-t flex items-center gap-3  border-b border-b-gray-300 dark:bg-gray-700 dark:border-b-gray-00 dark:text-white';
   
     // Crear una variable para saber si el input estará checked o no
     const isChecked = toDo.isCompleted ? 'checked' : '';
@@ -89,7 +95,7 @@ function createToDoHTML (toDo) {
       <svg class="${isCheckIconVisible} check-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="9"><path fill="none" stroke="#FFF" stroke-width="2" d="M1 4.304L3.696 7l6-6"/></svg>
     </label>
     <span class="peer-checked:line-through peer-checked:opacity-30">${toDo.task}</span>
-    <button data-delete="${toDo.id}"  aria-label="Delete button" type="button" class="ml-auto text-gray-600 cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
+    <button data-delete="${toDo.id}"  aria-label="Delete button" type="button" class="ml-auto text-gray-600 dark:text-white cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
         <path fill="currentColor" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/>
       </svg>
