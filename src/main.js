@@ -21,7 +21,7 @@ const allToDos = [
 ];
 
 // Cazo la sección donde añadiré las tareas
-const toDoList = document.querySelector('.toDo-list');
+const $toDoList = document.querySelector('.toDo-list');
 
 
 // Imprimir los todos al cargar la página
@@ -31,17 +31,23 @@ printToDos();
 countItemsLeft();
 
 
+// Cazamos el formulario
+const $addToDoForm = document.querySelector('.add-todo-form');
+
+// Escuchamos el evento submit
+$addToDoForm.addEventListener('submit', handleAddToDoFormSubmit);
+
 
 function printToDos () {
   // Borrar toda la lista de tareas
-  toDoList.innerHTML = '';
+  $toDoList.innerHTML = '';
 
   // Recorro cada tarea de la lista de tareas
   for (const toDo of allToDos) {   
 
     const article = createToDoHTML(toDo);  
     // Lo meto en el DOM dentro de la sección
-    toDoList.append(article);  
+    $toDoList.append(article);  
   }
 }
 
@@ -61,12 +67,12 @@ function createToDoHTML (toDo) {
   
     // Le pongo lo de dentro
     article.innerHTML = `
-    <input data-id="${toDo.id}"  aria-label="Complete to-do checkbox" id="${toDo.id}" class="complete-checkbox hidden peer" type="checkbox" ${isChecked}>
-    <label data-complete-input for="${toDo.id}" class="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:bg-check-gradient">
+    <input aria-label="Complete to-do checkbox" id="${toDo.id}" class="complete-checkbox hidden peer" type="checkbox" ${isChecked}>
+    <label data-complete="${toDo.id}" for="${toDo.id}" class="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:bg-check-gradient">
       <svg class="${isCheckIconVisible} check-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="9"><path fill="none" stroke="#FFF" stroke-width="2" d="M1 4.304L3.696 7l6-6"/></svg>
     </label>
     <span class="peer-checked:line-through peer-checked:opacity-30">${toDo.task}</span>
-    <button data-delete-button data-id="${toDo.id}" aria-label="Delete button" type="button" class="ml-auto text-gray-600 cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
+    <button data-delete="${toDo.id}"  aria-label="Delete button" type="button" class="ml-auto text-gray-600 cursor-pointer hover:scale-110 hover:rotate-90 transition-transform">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
         <path fill="currentColor" fill-rule="evenodd" d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"/>
       </svg>
@@ -76,26 +82,15 @@ function createToDoHTML (toDo) {
     //! OPCION 1 PARA ESCUCHAR LOS EVENTOS DE LOS BOTONES DE LOS TO-DOS
     //* Justo aquí debajo, el article YA TIENE DENTRO el input y el Button que completan y borran el toDo.
     // const completedInput = article.querySelector('.complete-checkbox');
-    // completedInput.addEventListener('change',  () => toggleCompleteToDo(toDo));        
+    // completedInput.addEventListener('change',  () => toggleCompleteToDo(toDo.id));        
 
     //* Ahora caza el boton de borrar
-    //* Le escuchas el click
-
-    
+    //* Le escuchas el click    
     // const deleteButton = article.querySelector('[data-delete-button]');
-    // deleteButton.addEventListener('click', () => deleteToDo(toDo));
+    // deleteButton.addEventListener('click', () => deleteToDo(toDo.id));
 
-    //! ***************************************************/
-
-    //* Buscas dentro del array cual es el que quiero borrar (con el id)
-
-    //* Haces un splice para borrarlo del array
-
-    //* Reimprimes la lista de todos
-
-    //* Recalculas el número de items que faltan por completar
-
-
+    //! ***************************************************/    
+    
     return article;
 }
 
@@ -111,15 +106,6 @@ function countItemsLeft () {
   
   itemsLeftOutput.innerText = itemsLeftCount;
 }
-
-
-// Cazamos el formulario
-const $addToDoForm = document.querySelector('.add-todo-form');
-
-// Escuchamos el evento submit
-$addToDoForm.addEventListener('submit', handleAddToDoFormSubmit);
-
-
 
 function handleAddToDoFormSubmit (event) {
   
@@ -152,7 +138,6 @@ function handleAddToDoFormSubmit (event) {
   $addToDoForm.reset();
 }
 
-
 function createNewToDo (newTaskValue) {
   const newToDo = {
     id: nanoid(5),
@@ -175,20 +160,26 @@ function isInputEmpty (value) {
   }
 }
 
-
-function toggleCompleteToDo (toDo) {  
-  // Aquí YO TENGO EL OBJETO DEL TODO ENTERO, así que puedo cambiar su propiedad isCompleted a true o false
-  toDo.isCompleted = !toDo.isCompleted;
+function toggleCompleteToDo (idToComplete) {  
+  for (const i in allToDos) {
+    const toDo = allToDos[i];
+  
+    if (toDo.id === idToComplete) {
+      toDo.isCompleted = !toDo.isCompleted;
+      break;
+    }  
+  } 
+  
   printToDos();
   countItemsLeft();
 }
 
-function deleteToDo (toDoToDelete) {
+function deleteToDo (idToDelete) {
 
   for (const i in allToDos) {
     const toDo = allToDos[i];
 
-    if (toDo.id === toDoToDelete.id) {
+    if (toDo.id === idToDelete) {
       allToDos.splice(i, 1);
       break;
     }
@@ -198,72 +189,23 @@ function deleteToDo (toDoToDelete) {
   countItemsLeft();
 }
 
-// const handleAddToDoFormSubmit = (event) => {
-
-//   // Paramos el comportamiento por defecto del formulario
-//   event.preventDefault();
-  
-//   // Cogemos el valor del usuario
-//   const newTaskValue = $addToDoForm.addToDoInput.value;
-  
-
-//   //! Oye, mejor frena si te lo dejan vacío
-//   if (newTaskValue === '') {
-//     $addToDoForm.addToDoInput.classList.replace('focus-visible:ring-2', 'ring-4')
-//     $addToDoForm.addToDoInput.classList.replace('focus-visible:ring-pink-500', 'ring-red-500')
-//     return;
-//   } else {
-//     $addToDoForm.addToDoInput.classList.replace('ring-4', 'focus-visible:ring-2')
-//     $addToDoForm.addToDoInput.classList.replace('ring-red-500', 'focus-visible:ring-pink-500')
-//   }
-
-   
-//   // Creamos un nuevo TODO que meteremos en el array
-//   const newToDo = {
-//     id: nanoid(5),
-//     task:  newTaskValue,
-//     isCompleted: false
-//   };
-
-//   allToDos.push(newToDo);
-  
-//   // Reimprimimos todos los todos
-//   printToDos();
-
-//   // Recalculamos el número de items que faltan por completar
-//   countItemsLeft();
-
-//   // vaciar el input
-//   // opcion modificar el value a un string vacío
-//   // $addToDoForm.addToDoInput.value = '';
-
-//   // opción resetear el formulario
-//   $addToDoForm.reset();
-// }
-
-
-
-
-
-
-
 
 //! OPCION 2 PARA ESCUCHAR LOS EVENTOS DE LOS BOTONES DE LOS TO-DOS
 //? Event Delegation
 
 
-window.addEventListener('click', (event) => {
-  if (event.target.closest('[data-complete-input]') !== null) {
+$toDoList.addEventListener('click', (event) => {
+  const deleteButton = event.target.closest('button[data-delete]');
+  const completeLabel = event.target.closest('label[data-complete]');
 
-    // consigo el id
-    const id = event.target.closest('[data-complete-input]').getAttribute('data-id');
-    console.log(id);
-    // toggleCompleteToDo();
-  } else if (event.target.closest('[data-delete-button]') !== null) {
+  if (deleteButton !== null) {
+    const toDoId = deleteButton.dataset.delete;    
+    deleteToDo(toDoId);
 
-    const id = event.target.closest('[data-delete-button]').getAttribute('data-id');
-    console.log(id);
-    // deleteToDo();
+  } else if (completeLabel !== null) {
+    const toDoId = completeLabel.dataset.complete;
+    toggleCompleteToDo(toDoId);
   }
+  
 });
 
