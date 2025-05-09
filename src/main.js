@@ -66,12 +66,13 @@ function printToDos () {
   $toDoList.innerHTML = '';
 
   // Recorro cada tarea de la lista de tareas
-  for (const toDo of allToDos) {   
-
+  // for (const toDo of allToDos) {   
+  allToDos.forEach((toDo) => {
     const article = createToDoHTML(toDo);  
     // Lo meto en el DOM dentro de la sección
     $toDoList.append(article);  
-  }
+
+  });
 }
 
 function createToDoHTML (toDo) {
@@ -186,14 +187,18 @@ function isInputEmpty (value) {
 }
 
 function toggleCompleteToDo (idToComplete) {  
-  for (const i in allToDos) {
-    const toDo = allToDos[i];
+  // for (const i in allToDos) {
+  //   const toDo = allToDos[i];
   
-    if (toDo.id === idToComplete) {
-      toDo.isCompleted = !toDo.isCompleted;
-      break;
-    }  
-  } 
+  //   if (toDo.id === idToComplete) {
+  //     toDo.isCompleted = !toDo.isCompleted;
+  //     break;
+  //   }  
+  // } 
+
+
+  const toDoToToggle = allToDos.find((toDo) => toDo.id === idToComplete);
+  toDoToToggle.isCompleted = !toDoToToggle.isCompleted;
   
   printToDos();
   countItemsLeft();
