@@ -33,12 +33,14 @@ const toDosLocalStorage = JSON.parse(localStorage.getItem('toDos'));
 // }
 
 //* Opción nueva
-const allToDos = toDosLocalStorage || [];
+let allToDos = toDosLocalStorage || [];
 
 const $clearCompletedButton = document.querySelector('.clear-completed');
 const $toDoList = document.querySelector('.toDo-list');
 const $darkModeButton = document.querySelector('[aria-label="dark mode button"]');
-
+const $filterCompleted = document.querySelector('.filter-completed');
+const $filterNotCompleted = document.querySelector('.filter-not-completed');
+const $filterAll = document.querySelector('.filter-all');
 
 
 // Imprimir los todos al cargar la página
@@ -61,13 +63,13 @@ $clearCompletedButton.addEventListener('click', clearCompletedToDos);
 $darkModeButton.addEventListener('click', () => {
   document.body.classList.toggle('dark');})
 
-function printToDos () {
+function printToDos (arrayToDos = allToDos) {
   // Borrar toda la lista de tareas
   $toDoList.innerHTML = '';
 
   // Recorro cada tarea de la lista de tareas
   // for (const toDo of allToDos) {   
-  allToDos.forEach((toDo) => {
+  arrayToDos.forEach((toDo) => {
     const article = createToDoHTML(toDo);  
     // Lo meto en el DOM dentro de la sección
     $toDoList.append(article);  
@@ -208,14 +210,22 @@ function toggleCompleteToDo (idToComplete) {
 
 function deleteToDo (idToDelete) {
 
-  for (const i in allToDos) {
-    const toDo = allToDos[i];
+  //* Opción 1: Bucle for y splice
+  // for (const i in allToDos) {
+  //   const toDo = allToDos[i];
 
-    if (toDo.id === idToDelete) {
-      allToDos.splice(i, 1);
-      break;
-    }
-  }
+  //   if (toDo.id === idToDelete) {
+  //     allToDos.splice(i, 1);
+  //     break;
+  //   }
+  // }
+
+  //* Opción 2: FindIndex y splice
+  // const indexToDoToDelete = allToDos.findIndex(toDo => toDo.id === idToDelete);
+  // allToDos.splice(indexToDoToDelete, 1);
+
+  //* Opción 3: filter 👉 Crea un nuevo array en memoria, es decir el original deja de existir
+  allToDos = allToDos.filter((toDo) => { return toDo.id !== idToDelete });
 
   printToDos();
   countItemsLeft();
@@ -229,14 +239,18 @@ function setTodosInLocalStorage () {
 
 
 function clearCompletedToDos () {  
-  for (let i = 0; i < allToDos.length; i++) {
-    const toDo = allToDos[i];
+  // for (let i = 0; i < allToDos.length; i++) {
+  //   const toDo = allToDos[i];
 
-    if (toDo.isCompleted === true) {
-      allToDos.splice(i, 1);
-      i--; // Decrementar el índice para evitar saltar un elemento
-    }
-  }
+  //   if (toDo.isCompleted === true) {
+  //     allToDos.splice(i, 1);
+  //     i--; // Decrementar el índice para evitar saltar un elemento
+  //   }
+  // }
+
+
+  //* Opción 2: filter
+  allToDos = allToDos.filter((toDo) => toDo.isCompleted === false);
 
   printToDos();
   countItemsLeft();
@@ -264,4 +278,22 @@ $toDoList.addEventListener('click', (event) => {
   }
   
 });
+
+
+
+//* Filtros
+
+$filterCompleted.addEventListener('click', () => {
+  const filteredCompleted = allToDos.filter((toDo) => {return toDo.isCompleted === true })
+  printToDos(filteredCompleted);
+});
+
+$filterAll.addEventListener('click', () => printToDos());
+
+$filterNotCompleted.addEventListener('click', () => {
+  const filteredNotCompleted = allToDos.filter((toDo) => {return toDo.isCompleted === false })
+  printToDos(filteredNotCompleted);
+});
+
+
 
