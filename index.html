@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en" >
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
 
@@ -10,20 +10,53 @@
   </head>
   <!-- <body class="bg-[url('/img/bg-desktop-light.jpg')] bg-no-repeat"> -->
   <!-- <body class="bg-(image:--bg-desktop) bg-no-repeat font-josefin"> -->
-  <body class="dark bg-mobile bg-white dark:bg-gray-800 md:bg-desktop bg-size-[100%] bg-no-repeat font-josefin">
-
+  <body
+    class="dark bg-mobile bg-white dark:bg-gray-800 md:bg-desktop bg-size-[100%] bg-no-repeat font-josefin"
+  >
     <div class="w-full px-4 sm:w-md mx-auto my-12">
       <header class="flex justify-between">
-        <h1 class="text-2xl font-semibold tracking-gigante text-white">TODO</h1>
-        <button aria-label="dark mode button" type="button" class="hover:scale-110 hover:-rotate-90 transition-transform cursor-pointer">
-          <svg class="dark:hidden" xmlns="http://www.w3.org/2000/svg" width="26" height="26"><path fill="#FFF" fill-rule="evenodd" d="M13 0c.81 0 1.603.074 2.373.216C10.593 1.199 7 5.43 7 10.5 7 16.299 11.701 21 17.5 21c2.996 0 5.7-1.255 7.613-3.268C23.22 22.572 18.51 26 13 26 5.82 26 0 20.18 0 13S5.82 0 13 0z"/></svg>
-          <svg class="hidden dark:block" xmlns="http://www.w3.org/2000/svg" width="26" height="26"><path fill="#FFF" fill-rule="evenodd" d="M13 21a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-5.657-2.343a1 1 0 010 1.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.12-2.121a1 1 0 011.415 0zm12.728 0l2.121 2.121a1 1 0 01-1.414 1.414l-2.121-2.12a1 1 0 011.414-1.415zM13 8a5 5 0 110 10 5 5 0 010-10zm12 4a1 1 0 110 2h-3a1 1 0 110-2h3zM4 12a1 1 0 110 2H1a1 1 0 110-2h3zm18.192-8.192a1 1 0 010 1.414l-2.12 2.121a1 1 0 01-1.415-1.414l2.121-2.121a1 1 0 011.414 0zm-16.97 0l2.121 2.12A1 1 0 015.93 7.344L3.808 5.222a1 1 0 011.414-1.414zM13 0a1 1 0 011 1v3a1 1 0 11-2 0V1a1 1 0 011-1z"/></svg>
+        <h1 class="text-2xl font-semibold tracking-gigante text-white">
+          TODO v1.0
+        </h1>
+        <button
+          aria-label="dark mode button"
+          type="button"
+          class="hover:scale-110 hover:-rotate-90 transition-transform cursor-pointer"
+        >
+          <svg
+            class="dark:hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+          >
+            <path
+              fill="#FFF"
+              fill-rule="evenodd"
+              d="M13 0c.81 0 1.603.074 2.373.216C10.593 1.199 7 5.43 7 10.5 7 16.299 11.701 21 17.5 21c2.996 0 5.7-1.255 7.613-3.268C23.22 22.572 18.51 26 13 26 5.82 26 0 20.18 0 13S5.82 0 13 0z"
+            />
+          </svg>
+          <svg
+            class="hidden dark:block"
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+          >
+            <path
+              fill="#FFF"
+              fill-rule="evenodd"
+              d="M13 21a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-5.657-2.343a1 1 0 010 1.414l-2.121 2.121a1 1 0 01-1.414-1.414l2.12-2.121a1 1 0 011.415 0zm12.728 0l2.121 2.121a1 1 0 01-1.414 1.414l-2.121-2.12a1 1 0 011.414-1.415zM13 8a5 5 0 110 10 5 5 0 010-10zm12 4a1 1 0 110 2h-3a1 1 0 110-2h3zM4 12a1 1 0 110 2H1a1 1 0 110-2h3zm18.192-8.192a1 1 0 010 1.414l-2.12 2.121a1 1 0 01-1.415-1.414l2.121-2.121a1 1 0 011.414 0zm-16.97 0l2.121 2.12A1 1 0 015.93 7.344L3.808 5.222a1 1 0 011.414-1.414zM13 0a1 1 0 011 1v3a1 1 0 11-2 0V1a1 1 0 011-1z"
+            />
+          </svg>
         </button>
       </header>
 
-
       <form class="add-todo-form my-4 shadow-lg">
-        <input class="bg-white dark:bg-gray-600 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded py-2 px-4 w-full" type="text" placeholder="Create a new todo..." name="addToDoInput" />
+        <input
+          class="bg-white dark:bg-gray-600 dark:text-white outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded py-2 px-4 w-full"
+          type="text"
+          placeholder="Create a new todo..."
+          name="addToDoInput"
+        />
       </form>
 
       <section class="toDo-list shadow-lg">
@@ -53,30 +86,44 @@
           </button>
         </article>         -->
       </section>
-      <section class="bg-white dark:bg-gray-600 py-3 px-4 shadow-lg rounded-b flex justify-between">
-          <span class="text-sm text-gray-500 dark:text-gray-300">
-            <span class="items-left-output">5</span> items left
-          </span>
-          <button type="button" class="clear-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm">
-            Clear completed
-          </button>       
+      <section
+        class="bg-white dark:bg-gray-600 py-3 px-4 shadow-lg rounded-b flex justify-between"
+      >
+        <span class="text-sm text-gray-500 dark:text-gray-300">
+          <span class="items-left-output">5</span> items left
+        </span>
+        <button
+          type="button"
+          class="clear-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm"
+        >
+          Clear completed
+        </button>
       </section>
 
-
-      <section class="bg-white dark:bg-gray-600 py-3 px-4 mt-2 shadow-lg rounded flex justify-center gap-6">
-          
-          <button type="button" class="filter-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm">
-            Completed
-          </button>       
-          <button type="button" class="filter-not-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm">
-            Not Completed
-          </button>       
-          <button type="button" class="filter-all text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm">
-            All
-          </button>       
+      <section
+        class="bg-white dark:bg-gray-600 py-3 px-4 mt-2 shadow-lg rounded flex justify-center gap-6"
+      >
+        <button
+          type="button"
+          class="filter-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm"
+        >
+          Completed
+        </button>
+        <button
+          type="button"
+          class="filter-not-completed text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm"
+        >
+          Not Completed
+        </button>
+        <button
+          type="button"
+          class="filter-all text-gray-500 dark:text-gray-300 cursor-pointer hover:underline hover:text-gray-700 text-sm"
+        >
+          All
+        </button>
       </section>
     </div>
-    
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
